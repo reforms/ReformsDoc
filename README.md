@@ -1,4 +1,6 @@
 # ReformsDoc
 Documentation for RefOrms JDBC framework
 
-link:https://htmlpreview.github.io/?https://github.com/reforms/ReformsDoc/blob/master/doc.html[RefOrms Manual]
+See [`RefOrms Manual`][1] with html preview
+
+[1]: https://htmlpreview.github.io/?https://github.com/reforms/ReformsDoc/blob/master/doc.html
