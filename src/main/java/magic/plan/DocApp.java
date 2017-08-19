@@ -48,16 +48,12 @@ public class DocApp extends Application {
                             transformer.transform(domSource, streamResult);
                             String content = baos.toString("UTF-8");
                             String docsHtml = patch(content);
-
-                            System.out.println(docsHtml);
-
                             ByteArrayInputStream finalDocStream = new ByteArrayInputStream(docsHtml.getBytes("UTF-8"));
                             Files.copy(finalDocStream, new File("doc.html").toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                        //Platform.exit();
                     }
                 }
             });
