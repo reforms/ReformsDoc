@@ -1,0 +1,739 @@
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #EEEEEE;
+}
+
+#LeftSide {
+    float: left;
+    width: 25%;
+    background-color: #EEEEEE;
+    height: 100%;
+    position: fixed;
+    outline: 1px solid;
+}
+
+#CenteredContent {
+    float: right;
+    width: 50%;
+    background-color: #F7F0D5;
+    position: relative;
+    outline: 1px solid;
+}
+
+#ContentBody {
+    width: 100%;
+    background-color: #F7F0D5;
+}
+#RightSide {
+    float: right;
+    width: 25%;
+    background-color: #EEEEEE;
+    height: 100%;
+    position: relative;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-left: 20px;}
+
+h2 {
+    padding-top: 10px;
+    padding-left: 30px;
+}
+
+p {
+    padding-left: 40px
+}
+
+ul {
+    padding-left: 60px
+}
+
+summary {
+    text-align: left;
+/*     padding: 5px 10px; */
+    vertical-align: middle;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #FAFADD;
+    height: 30px;
+    background-color: #3f3f3f;
+    width: 100%;
+}
+
+pre {
+    padding: 0px;
+    margin:  0px;
+}
+
+.menu-main-item {
+  padding-top: 10px;
+  padding-left: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu-child-item {
+    padding-top: 10px;
+    padding-left: 20px;
+    font-size: 90%;
+    text-decoration: none;
+    display: block;
+}
+
+.block-item {
+    padding-left: 20px;
+    display: block;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-dark-red {
+    color: #AA0000;
+}
+
+.color-jclass {
+    color: #252577;
+}
+
+.color-strong {
+    color: #775599;
+}
+
+.text-bold {
+  font-weight: bold
+}
+
+</style>
+<style>
+.hljs{display:block;overflow-x:auto;padding:0.5em;background:#3f3f3f;color:#dcdcdc}.hljs-keyword,.hljs-selector-tag,.hljs-tag{color:#e3ceab}.hljs-template-tag{color:#dcdcdc}.hljs-number{color:#8cd0d3}.hljs-variable,.hljs-template-variable,.hljs-attribute{color:#efdcbc}.hljs-literal{color:#efefaf}.hljs-subst{color:#8f8f8f}.hljs-title,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-section,.hljs-type{color:#efef8f}.hljs-symbol,.hljs-bullet,.hljs-link{color:#dca3a3}.hljs-deletion,.hljs-string,.hljs-built_in,.hljs-builtin-name{color:#cc9393}.hljs-addition,.hljs-comment,.hljs-quote,.hljs-meta{color:#7f9f7f}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+</style>
+</HEAD>
+<BODY>
+    <DIV id="LeftSide">
+    <A class="menu-main-item" href="#Introduction">Introduction</A>
+    <A class="menu-child-item" href="#GetStarted">Get started</A>
+    <A class="menu-child-item" href="#Requirements">Limitations and requirements</A>
+    <A class="menu-child-item" href="#Terminology">Terminology and naming</A>
+    <A class="menu-main-item" href="#Ideas">Ideas</A>
+    <A class="menu-child-item" href="#BoilerPlateFree">Free from boiler plate code</A>
+    <A class="menu-child-item" href="#DAO">DAO is interface</A>
+    <A class="menu-child-item" href="#AnnotationsFree">Free from annotations</A>
+    <A class="menu-child-item" href="#WeakDependence">Weak dependence</A>
+    <A class="menu-main-item" href="#TargetClasses">Target class and annotations</A>
+    <A class="menu-child-item" href="#OrmDao">OrmDao</A>
+    <A class="menu-child-item" href="#TargetQuery">@TargetQuery</A>
+    <A class="menu-child-item" href="#TargetFilter">@TargetFilter</A>
+    <A class="menu-child-item" href="#TargetDao">@TargetDao</A>
+    <A class="menu-child-item" href="#TargetMethod">@TargetMethod</A>
+    <A class="menu-child-item" href="#TargetField">@TargetField</A>
+    <A class="menu-child-item" href="#TargetConstructor">@TargetConstructor</A>
+
+
+    </DIV>
+    <DIV id="RightSide"><SPAN/></DIV>
+    <DIV id="CenteredContent">
+        <DIV id="ContentBody">
+
+
+            <H1 id="Introduction">Introduction</H1>
+
+
+            <P>RefOrms is SQL-oriented JDBC framework, similar to Spring Framework JDBC but having several advantages over it.
+               Your thoughts, approaches and actions will be related to SQL by 99%.
+               You will be exempted from the routine and boilerplate code such as setting parameters to PreparedStatement
+               or reading the result from ResultSet or setting result to DTO. Nothing but SQL</P>
+
+            <H2 id="GetStarted">Get started</H2>
+
+            <P>Using maven release dependency</P>
+            <PRE><CODE class="html hljs xml">
+    <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>com.github.reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>2017.08.07<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>
+    <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN></CODE></PRE>
+            <P>Using maven last dependency. Helpful for developing mode</P>
+            <PRE><CODE class="html hljs xml">
+    <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>com.github.reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>master-SNAPSHOT<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>
+    <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN>
+    <SPAN class="hljs-comment">&lt;!-- Don't forget to add sonatype-staging repo for access to last dependency --&gt;</SPAN>
+    <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">repository</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">id</SPAN>&gt;</SPAN>sonatype-staging<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">id</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">url</SPAN>&gt;</SPAN>https://oss.sonatype.org/content/groups/staging/<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">url</SPAN>&gt;</SPAN>
+    <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">repository</SPAN>&gt;</SPAN></CODE></PRE>
+            <DETAILS>
+                <SUMMARY>
+                    <SPAN>See full pom examples with last version</SPAN>
+                </SUMMARY>
+                <PRE><CODE class="html hljs xml">
+    <SPAN class="php"><SPAN class="hljs-meta">&lt;?</SPAN>xml version=<SPAN class="hljs-string">"1.0"</SPAN> encoding=<SPAN class="hljs-string">"UTF-8"</SPAN><SPAN class="hljs-meta">?&gt;</SPAN></SPAN>
+    <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">project</SPAN> <SPAN class="hljs-attr">xmlns</SPAN>=<SPAN class="hljs-string">"http://maven.apache.org/POM/4.0.0"</SPAN>
+             <SPAN class="hljs-attr">xmlns:xsi</SPAN>=<SPAN class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</SPAN>
+             <SPAN class="hljs-attr">xsi:schemaLocation</SPAN>=<SPAN class="hljs-string">"http://maven.apache.org/POM/4.0.0
+                               http://maven.apache.org/xsd/maven-4.0.0.xsd"</SPAN>&gt;</SPAN>
+
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">modelVersion</SPAN>&gt;</SPAN>4.0.0<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">modelVersion</SPAN>&gt;</SPAN>
+
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>doc<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>examples<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>1-SNAPSHOT<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">packaging</SPAN>&gt;</SPAN>jar<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">packaging</SPAN>&gt;</SPAN>
+
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">dependencies</SPAN>&gt;</SPAN>
+            <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN>
+                <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>com.github.reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">groupId</SPAN>&gt;</SPAN>
+                <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>reforms<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">artifactId</SPAN>&gt;</SPAN>
+                <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>master-SNAPSHOT<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">version</SPAN>&gt;</SPAN>
+            <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">dependency</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">dependencies</SPAN>&gt;</SPAN>
+
+        <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">repositories</SPAN>&gt;</SPAN>
+            <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">repository</SPAN>&gt;</SPAN>
+                <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">id</SPAN>&gt;</SPAN>sonatype-staging<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">id</SPAN>&gt;</SPAN>
+                <SPAN class="hljs-tag">&lt;<SPAN class="hljs-name">url</SPAN>&gt;</SPAN>https://oss.sonatype.org/content/groups/staging/<SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">url</SPAN>&gt;</SPAN>
+            <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">repository</SPAN>&gt;</SPAN>
+        <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">repositories</SPAN>&gt;</SPAN>
+    <SPAN class="hljs-tag">&lt;/<SPAN class="hljs-name">project</SPAN>&gt;</SPAN>
+</CODE></PRE></DETAILS>
+            <P>Free open source <A href="https://github.com/reforms/reforms">RefOrms</A> code on github</P>
+
+            <H2 id="Requirements">Limitations and requirements</H2>
+
+            <P>1) Java 8 and upper</P>
+            <P>2) SQL expression based on ANSI SQL92 standard. But important SQL-specific part like paging,
+               date api and some other SQL expressions are supported too for most known DBMS (Oracle, MsSQL, PostreSql)</P>
+            <P>3) RefOrms framework <SPAN class="color-red">doesn't have external dependencies</SPAN> and it's good news</P>
+
+            <H2 id="Terminology">Terminology and naming</H2>
+            <P>We will discuss using 3 layouts: Dao, Orm and App. Dao is layout to accessing some data, Orm is POJO/DTO object wich contains some data
+               and App is layout to build application using Dao and Orm elements</P>
+            <P>All examples below will using next naming pattern for layout
+                </P><UL>
+                    <LI>Entity layout naming pattern like that <SPAN class="color-dark-red text-bold">YourOrm</SPAN>:
+                        <DIV class="block-item"><SPAN class="color-dark-red text-bold">YourOrm</SPAN> - entity object like Client, Person, Car and so on</DIV>
+                    </LI>
+                </UL>
+                <UL>
+                    <LI>Dao layout naming pattern like that <SPAN class="text-bold">I</SPAN><SPAN class="color-dark-red text-bold">YourOrm</SPAN><SPAN class="text-bold">Dao</SPAN>:
+                        <DIV class="block-item"><SPAN class="text-bold">I</SPAN> - interface marker and interface class is expected</DIV>
+                        <DIV class="block-item"><SPAN class="color-dark-red text-bold">YourOrm</SPAN> - entity object like Client, Person, Car and so on</DIV>
+                        <DIV class="block-item"><SPAN class="text-bold">Dao</SPAN>  dao layout marker</DIV>
+                        <DIV class="block-item"><SPAN>Summary: for Client entity we will have IClientDao class name</SPAN></DIV>
+                    </LI>
+
+                </UL>
+                <UL>
+                    <LI>App layout naming pattern like that <SPAN class="color-dark-red text-bold">YourOrm</SPAN><SPAN class="text-bold">App</SPAN>:
+                        <DIV class="block-item"><SPAN class="color-dark-red text-bold">YourOrm</SPAN> - entity object like Client, Person, Car and so on</DIV>
+                        <DIV class="block-item"><SPAN class="text-bold">App</SPAN> - business layout marker</DIV>
+                        <DIV class="block-item"><SPAN>Summary: for Client entity we will have ClientApp class name</SPAN></DIV>
+                    </LI>
+                </UL>
+            <P>
+
+            </P><H1 id="Ideas">Ideas</H1>
+
+            <H2 id="BoilerPlateFree">Free from boiler plate code</H2>
+            <P>Generally, does anyone like to write boiler plate code? Free from boiler plate code is root idea and hard task for RefOrms.
+            Being a developer there is an understanding of that the less code the better. Great efforts are spent to adhere to this rule here.</P>
+
+            <H2 id="DAO">DAO is interface</H2>
+
+            <P>It is assumed that access to the data will be carried out through the so-called DAO pattern.
+               It is assumed that DAO will be interface with annotated methods. Interface-way help you keep code clean, readable and aesthetic.
+               See example below for undestanding base idea
+            </P>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientDao</SPAN> </SPAN>{
+
+    <SPAN class="hljs-comment">// All records from clients table will automatically converted to List&lt;Client&gt;</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id,"</SPAN> +
+                 <SPAN class="hljs-string">"       name,"</SPAN> +
+                 <SPAN class="hljs-string">"       state "</SPAN> +
+                 <SPAN class="hljs-string">"FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">loadAllClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"INSERT INTO clients ( id,  name,  state) "</SPAN> +
+                 <SPAN class="hljs-string">"VALUES              (:id, :name, :state)"</SPAN>)
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">saveClient</SPAN><SPAN class="hljs-params">(@TargetFilter Client client)</SPAN></SPAN>;
+
+}            </CODE></PRE>
+            <DETAILS>
+                <SUMMARY>
+                    <SPAN>SQL table clients</SPAN>
+                </SUMMARY>
+                <PRE><CODE class="sql hljs">
+    <SPAN class="hljs-comment">--PostreSql. Client Table:</SPAN>
+    <SPAN class="hljs-keyword">CREATE</SPAN> <SPAN class="hljs-keyword">TABLE</SPAN> clients (
+      <SPAN class="hljs-keyword">id</SPAN> <SPAN class="hljs-built_in">bigint</SPAN> <SPAN class="hljs-keyword">NOT</SPAN> <SPAN class="hljs-literal">NULL</SPAN>,                       <SPAN class="hljs-comment">-- 1, 2, 3 and so on</SPAN>
+      <SPAN class="hljs-keyword">name</SPAN> <SPAN class="hljs-built_in">character</SPAN> <SPAN class="hljs-built_in">varying</SPAN>(<SPAN class="hljs-number">127</SPAN>) <SPAN class="hljs-keyword">NOT</SPAN> <SPAN class="hljs-literal">NULL</SPAN>,     <SPAN class="hljs-comment">-- Lovy Babon, Jim Martin and so on</SPAN>
+      state <SPAN class="hljs-built_in">int</SPAN> <SPAN class="hljs-keyword">NOT</SPAN> <SPAN class="hljs-literal">NULL</SPAN>                        <SPAN class="hljs-comment">-- 1 - ACTIVE, 2 - BLOCKED, 3 - DELETED</SPAN>
+    );</CODE></PRE>
+            </DETAILS>
+            <DETAILS>
+                <SUMMARY>
+                    <SPAN>Client entity</SPAN>
+                </SUMMARY>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-comment">// You can use lombok to escape boilerplate code like get/set/toString</SPAN>
+<SPAN class="hljs-comment">// @lombok.Data</SPAN>
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">Client</SPAN> </SPAN>{
+
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">long</SPAN> id;
+    <SPAN class="hljs-keyword">private</SPAN> String name;
+    <SPAN class="hljs-comment">// automatically converted from state column</SPAN>
+    <SPAN class="hljs-keyword">private</SPAN> ClientState state;
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">long</SPAN> <SPAN class="hljs-title">getId</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> id;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">setId</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">long</SPAN> id)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>.id = id;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> String <SPAN class="hljs-title">getName</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> name;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">setName</SPAN><SPAN class="hljs-params">(String name)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>.name = name;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> ClientState <SPAN class="hljs-title">getState</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> state;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">setState</SPAN><SPAN class="hljs-params">(ClientState state)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>.state = state;
+    }
+
+    <SPAN class="hljs-meta">@Override</SPAN>
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> String <SPAN class="hljs-title">toString</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> <SPAN class="hljs-string">"Client("</SPAN> + id + <SPAN class="hljs-string">", "</SPAN> + name + <SPAN class="hljs-string">", "</SPAN> + state + <SPAN class="hljs-string">")"</SPAN>;
+    }
+}</CODE></PRE></DETAILS>
+            <DETAILS>
+                <SUMMARY>
+                    <SPAN>ClientState enum</SPAN>
+                </SUMMARY>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">enum</SPAN> ClientState {
+
+    ACTIVE(<SPAN class="hljs-number">1</SPAN>),
+    BLOCKED(<SPAN class="hljs-number">2</SPAN>),
+    DELETED(<SPAN class="hljs-number">3</SPAN>);
+
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">int</SPAN> state;
+
+    ClientState(<SPAN class="hljs-keyword">int</SPAN> state) {
+        <SPAN class="hljs-keyword">this</SPAN>.state = state;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">int</SPAN> <SPAN class="hljs-title">getState</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> state;
+    }
+}</CODE></PRE></DETAILS>
+<DETAILS>
+                <SUMMARY>
+                    <SPAN>ClientApp - how to using code</SPAN>
+                </SUMMARY>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">ClientApp</SPAN> </SPAN>{
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">doWorkWithClients</SPAN><SPAN class="hljs-params">()</SPAN> <SPAN class="hljs-keyword">throws</SPAN> SQLException </SPAN>{
+        <SPAN class="hljs-keyword">try</SPAN> (Connection connection = resolveConnection()) {
+            IClientDao cliensDao = OrmDao.createDao(connection, IClientDao.class);
+            List&lt;Client&gt; clients = cliensDao.loadAllClients();
+            clients.forEach(System.out::println);
+        }
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">saveClient</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">long</SPAN> id, String name, ClientState state)</SPAN> <SPAN class="hljs-keyword">throws</SPAN> SQLException </SPAN>{
+        Client newClient = <SPAN class="hljs-keyword">new</SPAN> Client();
+        newClient.setId(id);
+        newClient.setName(name);
+        newClient.setState(state);
+        <SPAN class="hljs-keyword">try</SPAN> (Connection connection = resolveConnection()) {
+            IClientDao cliensDao = OrmDao.createDao(connection, IClientDao.class);
+            cliensDao.saveClient(newClient);
+        }
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">private</SPAN> Connection <SPAN class="hljs-title">resolveConnection</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-comment">// code here to resolving your connection or connection holder</SPAN>
+    }
+}</CODE></PRE></DETAILS>
+            <P>In the above example, one method <SPAN class="text-bold color-dark-red">loadAllClients</SPAN> select all records
+               from clients table and map result to list of Client entities. Second method, <SPAN class="text-bold color-dark-red">saveClient</SPAN>,
+               store Client entity to clients table. It's as simple as possible is not it?</P>
+
+            <H2 id="AnnotationsFree">Free from annotations</H2>
+
+            <P>This may seem strange but usaging annotated code as little as possible - central idea of RefOrms framework.
+            Yes, it is impossible to refuse completely but reduce the number of annotations to a minimum - possible.
+            In the above example only two annotations are using. In more cases you need 1 annotation <SPAN class="text-bold color-dark-red">@TargetQuery</SPAN> for SQL query
+            and 1 annotation <SPAN class="text-bold color-dark-red">@TargetFilter</SPAN> for query filtering. Absence of annotations implies the search for alternative solutions.
+            For example, you can annotate entity class fields to link them with table columns. But why? You can map columns to entity fields in SQL query.
+            For example, you can annotate constructor(s) in entity class. But why? We can detect a more suitable constructor ourselves</P>
+
+            <H2 id="WeakDependence">Weak dependence</H2>
+
+            <P>One of the tasks RefOrms framework is make you code clean from RefOrms infrastructure. This is very important for several reasons.
+            You should be able to change the framework for working with DB if you wish. Your application should have your code and not the code of RefOrms or
+            any other frameworks. This is the right message. It idea is more like philosophy but it's have practice base. So summary, you will have one
+            <SPAN class="text-bold color-dark-red">OrmDao</SPAN> class for create Dao in your App layer and 3 annotations for using inside Dao layer.
+            Yes, we have more classes for achievement advanced features and some settings to your specific needs.
+            Free from annotations is also part of the weak dependence idea.
+            </P>
+
+
+            <H1 id="TargetClasses">Target class and annotations</H1>
+
+
+            <H2 id="OrmDao">OrmDao</H2>
+
+                <P>Class <SPAN class="color-jclass">com.reforms.orm.OrmDao</SPAN> is central to create YourOrmDao impl inside your App layer. It contains one base method createDao. See example below</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">YourApp</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">/**
+     * <SPAN class="hljs-doctag">@param</SPAN> connectionHodler is java.sql.Connection
+     *                         or connection holder object like java.sql.DataSource
+     *                         or any object with getConnection() method
+     */</SPAN>
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">void</SPAN> <SPAN class="hljs-title">someMethod</SPAN><SPAN class="hljs-params">(Object connectionHodler)</SPAN> </SPAN>{
+        IClientDao cliensDao = OrmDao.createDao(connectionHodler, IClientDao.class);
+        List&lt;Client&gt; clients = cliensDao.loadAllClients();
+        <SPAN class="hljs-comment">// do work with clients here</SPAN>
+    }
+}
+</CODE></PRE>
+            <P>Method <SPAN class="color-jclass">OrmDao.createDao</SPAN> require connection <SPAN class="color-strong">holder</SPAN> object at first argument and DAO interface class in the second argument.
+               It's very important to undestand the idea of connection <SPAN class="color-strong">holder</SPAN> object. The connection holder object is responsible for
+               getting java.sql.Connection impl. The connection holder object must to returning the <SPAN class="color-strong">same</SPAN> instance of the connection
+               each times when required inside Dao layer. It's pattern naming as connection per task or if you are developing client-server app - connection per request.
+               YourOrmDao impl which produces from createDao method is not responsible for closing the connection. Connection holder may be one of th next:</P>
+               <UL>
+                   <LI>Intsance of <SPAN class="color-jclass">java.sql.Connection</SPAN>;</LI>
+                   <LI>Intsance of <SPAN class="color-jclass">java.sql.DataSource</SPAN>;</LI>
+                   <LI>Intsance of any class with public Connection getConnection() method inside;</LI>
+               </UL>
+               <P>Also YourOrmDao impl which produces from <SPAN class="color-jclass">OrmDao.createDao</SPAN> method is not <SPAN class="color-strong">thread safe</SPAN>
+            </P>
+
+
+            <H2 id="TargetQuery">@TargetQuery</H2>
+
+            <P><SPAN class="text-bold color-dark-red">@TargetQuery</SPAN> using for declare the SQL query expresion and any extra information. It contains next properties:</P>
+            <UL>
+               <LI><SPAN class="text-bold color-dark-red">type</SPAN> - type of SQL query like SELECT, INSERT, UPDATE, DELETE and CALL. In most cases not need to declare because framework can be resolved it automatically</LI>
+               <LI><SPAN class="text-bold color-dark-red">query</SPAN> - SQL query expression. If any properties absent is more best using value property for SQL query</LI>
+               <LI><SPAN class="text-bold color-dark-red">value</SPAN> - SQL-query expression for short style, if nothing except query</LI>
+               <LI><SPAN class="text-bold color-dark-red">batchSize</SPAN> - batch size for UPDATE or INSERT queries</LI>
+               <LI><SPAN class="text-bold color-dark-red">returnType</SPAN> - special SQL type for declaring return type in store procedure </LI>
+               <LI><SPAN class="text-bold color-dark-red">orm</SPAN> - class of entity like Client.class, Car.class and so on. In most cases not need to declare because framework can be resolved it automatically</LI>
+           </UL>
+           <P>Two thing are important keep in mind. The first is that short style is good. The second is that not all thing are posible to do automatically.
+              And second is problem. To undestanding this collision look at example below</P>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientDao</SPAN> </SPAN>{
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id, name, state FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">loadAllClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+}            </CODE></PRE>
+           <P>Yes, it's very compact. But how RefOrms can undestand what is entity type Client corresponds to the type selected? We all know that java don't keep
+           generic type and Client type will not be available, isn't it? And yes and no. If you recall the idea of
+           <A href="#BoilerPlateFree">'free from boiler plate code'</A> the next code will redundant but more corrected:</P>
+            <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientRedundantDao</SPAN> </SPAN>{
+
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(query = <SPAN class="hljs-string">"SELECT id, name, state FROM clients"</SPAN>,
+                 orm = Client.class)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">loadAllClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+}   </CODE></PRE>
+            <P>In continue of this think first example and second are differing with 28 symbols ('query = ', ',\n' and 'orm = Client.class').
+               But the real danger is that you can write next code:</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientRedundantDao</SPAN> </SPAN>{
+
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(query = <SPAN class="hljs-string">"SELECT id, name, state FROM clients"</SPAN>,
+                 orm = Car.class)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">loadAllClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+}   </CODE></PRE>
+            <P><SPAN class="color-jclass">orm = </SPAN><SPAN class="text-bold color-dark-red">Car.class</SPAN> instead of
+                <SPAN class="color-jclass">orm = </SPAN><SPAN class="text-bold color-dark-red">Client.class</SPAN> and runtime exception will occurring.
+                So, short style less error-prone than full style. But we did not finish with think about generic type in java and RefOrms framework.
+                <SPAN id="Magic">So, some magic and sorcery help us to solve this problem. How? It's our beta secret. Don't worry, you have accessing to all code on github.</SPAN>
+            </P>
+
+            <H2 id="TargetFilter">@TargetFilter</H2>
+
+            <P><SPAN class="text-bold color-dark-red">@TargetFilter</SPAN> using for associates a parameter with named filter in SQL query expression. It contains next properties:</P>
+            <UL>
+               <LI><SPAN class="text-bold color-dark-red">value</SPAN> - filter name</LI>
+               <LI><SPAN class="text-bold color-dark-red">columnFilter</SPAN> - using for filtering selected columns in SQL query expresion. Advanced mode. More details in text below</LI>
+           </UL>
+           <P>TargetFilter supports three types of params:</P>
+            <UL>
+               <LI>Based on simple filter value with type like <SPAN class="color-jclass">int.clas, String.class, Date.class</SPAN> and so on</LI>
+               <LI>Based on Bean object</LI>
+               <LI>Based on java.util.Map key-value</LI>
+           </UL>
+            <P>Let's look at an example with simple filter values:</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientFilterParamsDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">// Example: N1</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id, name, state "</SPAN> +
+                 <SPAN class="hljs-string">"FROM clients "</SPAN> +
+                 <SPAN class="hljs-string">"WHERE name = :name AND state = :state"</SPAN>)
+    <SPAN class="hljs-function">Client <SPAN class="hljs-title">filterClientByIdShort</SPAN><SPAN class="hljs-params">(String name, ClientState state)</SPAN></SPAN>;
+
+    <SPAN class="hljs-comment">// Example: N2</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id, name, state "</SPAN> +
+                 <SPAN class="hljs-string">"FROM clients "</SPAN> +
+                 <SPAN class="hljs-string">"WHERE name = :name AND state = :state"</SPAN>)
+    <SPAN class="hljs-function">Client <SPAN class="hljs-title">filterClientByIdShort</SPAN><SPAN class="hljs-params">(@TargetFilter(<SPAN class="hljs-string">"name"</SPAN>)</SPAN> String name,
+                                 @<SPAN class="hljs-title">TargetFilter</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-string">"state"</SPAN>)</SPAN> ClientState state)</SPAN>;
+}
+</CODE></PRE>
+            <P>Examples with number 1 and 2 are the same and both work. But second has explicit filter names like name and state.
+               It does not have any rules. It is more dependence on task. If you have 1 or 2 parameter to filtering data you can ignore <SPAN class="color-jclass">TargetFilter</SPAN> annotation.
+               If you have more than 2 parameters it is better using explicit filter name. But you needed keep in mind that if you don't using <SPAN class="color-jclass">TargetFilter</SPAN> annotation,
+               parameters ordering are important. In exmaple N1 the first sql filter link with first method parameter, the second sql filter with second and so on.
+               It is not bad if you choose your own rule to solve be or not to be <SPAN class="color-jclass">TargetFilter</SPAN> annotation in code.</P>
+            <P>Let's look at an example with Bean object:</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientFilterParamsDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">// Example: N3</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id, name, state "</SPAN> +
+                 <SPAN class="hljs-string">"FROM clients "</SPAN> +
+                 <SPAN class="hljs-string">"WHERE name LIKE :name AND "</SPAN> +
+                 <SPAN class="hljs-string">"      state = :state AND id &lt;&gt; :id"</SPAN>)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">filterClients</SPAN><SPAN class="hljs-params">(@TargetFilter ClientFilter filter)</SPAN></SPAN>;
+
+    <SPAN class="hljs-keyword">static</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">ClientFilter</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">final</SPAN> String name;
+        <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">final</SPAN> ClientState state;
+        <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-title">ClientFilter</SPAN><SPAN class="hljs-params">(String likeName, ClientState state)</SPAN> </SPAN>{
+            <SPAN class="hljs-keyword">this</SPAN>.name = likeName;
+            <SPAN class="hljs-keyword">this</SPAN>.state = state;
+        }
+        <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">long</SPAN> <SPAN class="hljs-title">getId</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+            <SPAN class="hljs-keyword">return</SPAN> <SPAN class="hljs-number">0L</SPAN>;
+        }
+    }
+}
+</CODE></PRE>
+           <P>Example N3 is easy to undestand by yourself. But some details are important.
+           At first, annotation <SPAN class="color-jclass">TargetFilter</SPAN> is required (perhaps, that fact will be changed in future
+           to simplify coding and correspond base idea of <A href="#BoilerPlateFree">'free from boiler plate code'</A>).
+           At second, bean inside bean is available. For example, <SPAN class="color-jclass">:address.zipCode</SPAN> filter is similar <SPAN class="color-jclass">filter.getAddress().getZipCode()</SPAN>.
+           At third, access by method has higher priority than access by field. There are some more rules but wich we'll omit for simplicity.
+           </P>
+           <P>Filters in RefOrms take central place and it is one of the reasons why RefOrms should be used. We'll discuss in more details in next chapter step by step.</P>
+
+            <H2 id="TargetDao">@TargetDao</H2>
+
+            <P><SPAN class="text-bold color-dark-red">@TargetDao</SPAN> using for set marker on Dao class. It contains next properties:</P>
+            <UL>
+               <LI><SPAN class="text-bold color-dark-red">name</SPAN> - description of DAO class like java-doc</LI>
+               <LI><SPAN class="text-bold color-dark-red">orm</SPAN> - entity type by default for result of SQL query expression</LI>
+               <LI><SPAN class="text-bold color-dark-red">value</SPAN> - entity type for short style, if nothing except entity type</LI>
+           </UL>
+            <P>Annotation <SPAN class="color-jclass">TargetDao</SPAN> is not necessary at all. It's using as marker for Dao layer. See example below</P><P>
+                </P><PRE><CODE class="java hljs">
+<SPAN class="hljs-meta">@TargetDao</SPAN>(name = <SPAN class="hljs-string">"It's dao for client. Table: clients"</SPAN>, orm = Client.class)
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">// Any methods with client here...</SPAN>
+}
+</CODE></PRE>
+            <P>But secrets here exist. At first, you can specify entity type in orm attribute. It help RefOrms with <A href="#Magic">magic</A>.
+            At second, set marker with text is cool for code reader. At third, it possible to make automate test for all DAO classes</P>
+
+            <H2 id="TargetMethod">@TargetMethod</H2>
+
+            <P>Annotation <SPAN class="color-jclass">TargetMethod</SPAN> is using in YourEnum class. See example below
+                </P><PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">enum</SPAN> ClientState {
+
+    ACTIVE(<SPAN class="hljs-number">1</SPAN>),
+    BLOCKED(<SPAN class="hljs-number">2</SPAN>),
+    DELETED(<SPAN class="hljs-number">3</SPAN>);
+
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">int</SPAN> state;
+
+    ClientState(<SPAN class="hljs-keyword">int</SPAN> state) {
+        <SPAN class="hljs-keyword">this</SPAN>.state = state;
+    }
+
+    <SPAN class="hljs-comment">// convert enum to int value</SPAN>
+    <SPAN class="hljs-meta">@TargetMethod</SPAN>
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">int</SPAN> <SPAN class="hljs-title">getState</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> state;
+    }
+
+    <SPAN class="hljs-comment">// convert int value to enum</SPAN>
+    <SPAN class="hljs-meta">@TargetMethod</SPAN>
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">static</SPAN> ClientState <SPAN class="hljs-title">valueFor</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">int</SPAN> code)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> code == <SPAN class="hljs-number">1</SPAN> ? ACTIVE : code == <SPAN class="hljs-number">2</SPAN> ? BLOCKED : DELETED;
+    }
+}
+</CODE></PRE>
+            <P>Here 2 method are annotated with <SPAN class="color-jclass">TargetMethod</SPAN>.
+            Both are needed to establish a correspondence between Enum instance and column value. So it's like converter in two way: from and to.
+            To date, there is no need to use it at all. For more detail see <A href="#TargetField"><SPAN class="color-jclass">TargetField</SPAN></A>.
+            It's my mistake in code design.
+            </P>
+
+            <H2 id="TargetField">@TargetField</H2>
+
+            <P>Annotation <SPAN class="color-jclass">TargetField</SPAN> is using in YourEnum class. See example below
+                </P><PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">enum</SPAN> ClientState {
+
+    ACTIVE(<SPAN class="hljs-number">1</SPAN>),
+    BLOCKED(<SPAN class="hljs-number">2</SPAN>),
+    DELETED(<SPAN class="hljs-number">3</SPAN>);
+
+    <SPAN class="hljs-meta">@TargetField</SPAN>
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">int</SPAN> state;
+
+    ClientState(<SPAN class="hljs-keyword">int</SPAN> state) {
+        <SPAN class="hljs-keyword">this</SPAN>.state = state;
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-keyword">int</SPAN> <SPAN class="hljs-title">getState</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">return</SPAN> state;
+    }
+}
+</CODE></PRE>
+            <P>It is needed to establish a correspondence between Enum instance and column value.
+            <SPAN class="color-jclass">TargetField</SPAN> is necessary to use if you want use enum instance as filter value for SQL query or
+            get it as result or part of result of SQL select expression.
+            To date, RefOrms have some logic to automate detection a correspondence between Enum instance and column value.
+            In example above, if remove annotation <SPAN class="color-jclass">TargetField</SPAN> from state field it will work fine too.
+            Next rule is important to know if you decide to escape <SPAN class="color-jclass">TargetField</SPAN> annotation:
+            first param with unique type in constructor will use to establish a correspondence between Enum instance and column value.
+            Otherwise it's strongly recommended to use <SPAN class="color-jclass">TargetField</SPAN> annotation on main field.
+            If no annotaion will present in enum class and no field will present in enum class a correspondence between Enum instance and column value will occur by enum instance name.
+            </P>
+
+            <H2 id="TargetConstructor">@TargetConstructor</H2>
+
+            <P><SPAN class="text-bold color-dark-red">@TargetConstructor</SPAN> using for selecting constructor to be using for create entity instance.
+            See example below for undestanding</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">Car</SPAN> </SPAN>{
+
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">int</SPAN> number;
+
+    <SPAN class="hljs-keyword">private</SPAN> String color;
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-title">Car</SPAN><SPAN class="hljs-params">()</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>(<SPAN class="hljs-number">0</SPAN>);
+    }
+
+    <SPAN class="hljs-meta">@TargetConstructor</SPAN>
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-title">Car</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">int</SPAN> number)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>(number, <SPAN class="hljs-string">"white"</SPAN>);
+    }
+
+    <SPAN class="hljs-function"><SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-title">Car</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">int</SPAN> number, String color)</SPAN> </SPAN>{
+        <SPAN class="hljs-keyword">this</SPAN>.number = number;
+        <SPAN class="hljs-keyword">this</SPAN>.color = color;
+    }
+
+}
+</CODE></PRE>
+            <DETAILS>
+                <SUMMARY>
+                    <SPAN>Car DAO example</SPAN>
+                </SUMMARY>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">ICarDao</SPAN> </SPAN>{
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT number, color "</SPAN> +
+                 <SPAN class="hljs-string">"FROM cars "</SPAN> +
+                 <SPAN class="hljs-string">"WHERE id = :id"</SPAN>)
+    <SPAN class="hljs-function">Car <SPAN class="hljs-title">loadCar</SPAN><SPAN class="hljs-params">(<SPAN class="hljs-keyword">int</SPAN> id)</SPAN></SPAN>;
+}
+</CODE></PRE>
+            </DETAILS>
+
+            <P><SPAN class="color-jclass">TargetConstructor</SPAN> is need for your own control for the creation of an object inside RefOrms framework.
+            In the example above we have 3 constructor and only one will be using for creation Car object.
+            I believe that you will not need to use this opportunity at all. In the example above if we remove <SPAN class="color-jclass">TargetConstructor</SPAN>
+            annotation, nothing change. RefOrms automatically detect more suitable constructor. There are some rules for detection of constructor:</P>
+            <UL>
+               <LI>Default constructor has max priority for using. If your entity class will have such constructor no problems will occur</LI>
+               <LI>Constructor with max parameters wich correspondence selected result has hight priority for using</LI>
+           </UL>
+            <!-- REMOVE after docs finish (footer) -->
+            <PRE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </PRE>
+
+        </DIV>
+    </DIV>
+
+</BODY></HTML>
