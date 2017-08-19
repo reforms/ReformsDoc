@@ -1,0 +1,108 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #EEEEEE;
+}
+
+#LeftSide {
+    float: left;
+    width: 25%;
+    background-color: #EEEEEE;
+    height: 100%;
+    position: fixed;
+    outline: 1px solid;
+}
+
+#CenteredContent {
+    float: right;
+    width: 50%;
+    background-color: #F7F0D5;
+    position: relative;
+    outline: 1px solid;
+}
+
+#ContentBody {
+    width: 100%;
+    background-color: #F7F0D5;
+}
+#RightSide {
+    float: right;
+    width: 25%;
+    background-color: #EEEEEE;
+    height: 100%;
+    position: relative;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-left: 20px;}
+
+h2 {
+    padding-top: 10px;
+    padding-left: 30px;
+}
+
+p {
+    padding-left: 40px
+}
+
+ul {
+    padding-left: 60px
+}
+
+summary {
+    text-align: left;
+/*     padding: 5px 10px; */
+    vertical-align: middle;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #FAFADD;
+    height: 30px;
+    background-color: #3f3f3f;
+    width: 100%;
+}
+
+pre {
+    padding: 0px;
+    margin:  0px;
+}
+
+.menu-main-item {
+  padding-top: 10px;
+  padding-left: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu-child-item {
+    padding-top: 10px;
+    padding-left: 20px;
+    font-size: 90%;
+    text-decoration: none;
+    display: block;
+}
+
+.block-item {
+    padding-left: 20px;
+    display: block;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-dark-red {
+    color: #AA0000;
+}
+
+.color-jclass {
+    color: #252577;
+}
+
+.color-strong {
+    color: #775599;
+}
+
+.text-bold {
+  font-weight: bold
+}
