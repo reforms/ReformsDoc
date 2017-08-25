@@ -2,7 +2,8 @@
 <HEAD>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/docs.css">
-<link rel="stylesheet" href="css/zenburn.min.css">
+<!-- <link rel="stylesheet" href="css/zenburn.min.css"> -->
+<link rel="stylesheet" href="css/default.min.css">
 <script src="lib/highlight.min.js"></script>
 <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 </HEAD>
@@ -25,8 +26,12 @@
     <a class="menu-child-item" href="#TargetMethod">@TargetMethod</a>
     <a class="menu-child-item" href="#TargetField">@TargetField</a>
     <a class="menu-child-item" href="#TargetConstructor">@TargetConstructor</a>
-
-
+    <a class="menu-main-item" href="#SqlQueries">Sql Queries</a>
+    <a class="menu-child-item" href="#SELECT">SELECT</a>
+    <a class="menu-child-child-item" href="#ColumnsAndFields">Columns and fields</a>
+    <a class="menu-child-child-item" href="#ColumnFilters">Column filters</a>
+    
+    
     </div>
     <div id="RightSide"><span></span></div>
     <div id="CenteredContent">
@@ -566,6 +571,189 @@ public interface ICarDao {
                <li>Default constructor has max priority for using. If your entity class will have such constructor no problems will occur</li>
                <li>Constructor with max parameters wich correspondence selected result has hight priority for using</li>
            </ul>
+           
+           
+           <h1 id="SqlQueries">Sql Queries</h1>
+           
+           
+           <h2 id="SELECT">SELECT</h2>
+
+           <p>Запрос типа SELECT в большенстве проектов является центральным, важным и сложным. Запросы такого типа можно встретить на любой вкус и цвет.
+           Поэтому RefOrms уделяет особое внимание этому типу запроса. Результатом этого запроса могуть быть: список объектов заданного типа, отчет,
+           одиночная сущность, данные примитивного типа и многое другое. 
+           </p>
+
+           <h3 id="ColumnsAndFields">Columns and fields</h3>
+           
+           <p>Что нужно знать? Первое, это полный формат выбираемой колонки для RefOrms в SQL выражении:</p>
+           <p>
+                <span class="color-dark-green text-bold">columnName</span>
+                <span class="color-dark-red"> AS </span>
+                <span class="color-dark-blue">columnAlias</span>
+                <span class="text-bold">:</span>
+                <span class="color-dark-green text-bold">fieldName</span>
+                <ul>
+                    <li><span class="color-dark-green text-bold">columnName</span> is column name or SQL selectable expression</li>
+                    <li><span class="color-dark-blue">columnAlias</span> is alias for selectable expression. [optional]</li>
+                    <li><span class="text-bold">:</span> is separator between alias and field name. [optional]</li>
+                    <li><span class="color-dark-green text-bold">fieldName</span> is entity field name. [optional]</li>
+                </ul>
+           </p>
+           <p>Второе, это понять, как осуществляется связывание колонки в SQL выражении и поля в ORM объекте.
+           Третье, какие у Вас есть возможности для этого. Все. Начнем по порядку и покажем как осуществляется связывание на примере:</p>
+                <pre><code class="java">
+public interface ISimpleClientDao {
+    /**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */
+    @TargetQuery("SELECT id, " +   // link with field 'id'
+                 "       name, " + // link with field 'name'
+                 "       state " + // link with field 'state'
+                 "FROM clients")
+    List&lt;Client&gt; allClients();
+}
+public class SimpleClient {
+    private long id;
+    private String name;
+    private ClientState state;
+    // get/set method omit for simplicity
+}
+</code></pre>
+            <p> В примере выше, связывание результата выборки осуществляется по названию колонки, т.е. для колонки с именем 'id'
+                ищется соответствующие поле с именем 'id', для колонки 'name' - поле 'name' в классе SimpleClient и т.д.
+                Это интуитивно понятно. Но что делать, если имя колонки не совпадает с именем поля класса? Давайте опять посмотрим пример:
+            </p>
+                <pre><code class="java">
+public interface IClientOrgDao {
+    /**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */
+    @TargetQuery("SELECT id     AS orgId, "   + // link with field 'orgId'
+                 "       name   AS orgName, " + // link with field 'orgName'
+                 "       state  AS orgState " + // link with field 'orgState'
+                 "FROM clients")
+    List&lt;ClientOrg&gt; allClientsOrg();
+    /** It's important. Output SQL: SELECT id, name, state FROM clients */
+}
+public class ClientOrg {
+    private long orgId;
+    private String orgName;
+    private ClientState orgState;
+    // get/set method omit for simplicity
+}
+</code></pre>
+            <p> Что изменилось? В SQL запросе добавилось 'AS clause' выражение для каждой колонки, чье наименование не совпадает с именем поля класса ClientOrg.
+            Здесь важно знать, что 'AS clause' выражение имеет наивысший приоритет при определении соответствия между колонкой и полем класса. Отдельно стоит 
+            отметить, что результирующий SQL запрос будет изменен и из него будут вырезаны 'AS clause'. Эту особенность работы RefOrms нужно держать в голове.
+            Разумеется, что иногда нужно сохранить информацию о 'AS clause' в результирующем SQL запросе. Посмотрим на следующий пример:
+            </p>
+                <pre><code class="java">
+public interface IClientOrgDao {
+    /**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */
+    @TargetQuery("SELECT id     AS aId:orgId, "   +       // link with field 'orgId'
+                 "       name   AS aOrgName:orgName, " +  // link with field 'orgName'
+                 "       state  AS aOrgState:orgState " + // link with field 'orgState'
+                 "FROM clients")
+    List&lt;ClientOrg&gt; clientsOrg();
+    /** It's important. Output SQL:
+     * SELECT id AS aId, name AS aOrgName, state AS aOrgState FROM clients */
+}
+public class ClientOrg {
+    private long orgId;
+    private String orgName;
+    private ClientState orgState;
+    // get/set method omit for simplicity
+}
+</code></pre>
+            <p>Итого, в результирующий запрос поподут алиасы колонок <span class="color-jclass">aOrgId, aOrgName</span> and <span class="color-jclass">aOrgState</span></p>
+            
+            <h3 id="ColumnFilters">Column filters</h3>
+            
+            <p>Фильтрация выбираемых колонок задача редкая. С другой стороны может быть жизненно-необходимой для решения конкретной задачи, например,
+            для уменьшения количества отдаваемых колонок с сервера на клиент в клиент-серверном приложении. Конечная задача - уменьшить количество передаваеммых данных
+            с одной стороны и увеличить отзывчивотсть приложения - с другой. Но это одна из задач, в Вашем случае могут быть другие причины для фильтрации.
+            RefOrms предоставляет инструменты для этого. Существует 2 способа отфильтровать колонки: <span class="color-jclass">статический</span> фильтр 
+            - через SQL выражение или <span class="color-jclass">динамический</span> через <span class="color-jclass">TargetFilter</span> в DAO методах и 2 типа фильтрации: 
+            1 - <span class="color-jclass">присутствует</span> в выборке, но не участвует в меппинге объекта и 
+            2 - <span class="color-jclass">отсутствует</span> в выборке и соответственно не участвует в меппинге. Рассмотрим каждую из возможностей более подробно. 
+            </p>
+            <p><span class="text-bold">Статический фильтр.</span> Фильтрация конкретной колонки осуществляется в SQL выражении. Формат:
+            <p>
+                <span class="color-dark-green text-bold">columnName</span>
+                <span class="color-dark-red"> AS </span>
+                <span class="color-dark-blue">columnAlias</span>
+                <span class="text-bold">:</span>
+                <span class="text-bold">!</span>
+                <ul>
+                    <li><span class="color-dark-green text-bold">columnName</span> is column name or SQL selectable expression</li>
+                    <li><span class="color-dark-blue">columnAlias</span> is alias for selectable expression. [optional]</li>
+                    <li><span class="text-bold">:</span> is separator between alias and marker. [optional]</li>
+                    <li><span class="text-bold">!</span> is marker for column which does not have corresponding field inside entity object</li>
+                </ul>
+           </p>
+            <p>Простой пример демонстрирует эту возможность:
+            </p>
+                <pre><code class="java">
+public interface IClientDao {
+    @TargetQuery("SELECT id," +
+                 "       name," +
+                 "       state ! " + // add '!' symbol, 
+                 "FROM clients")
+    List&lt;Client&gt; loadClients();
+    /** Output SQL: SELECT id, name, state FROM clients */
+
+}
+// No state field inside Client 
+public class Client {
+    private long id;
+    private String name;
+    // get/set method omit for simplicity
+}
+</code></pre>
+            <p>В примере выше мы добавили символ '!' напротив столбца <span class="color-jclass">state</span>, что означает, что для данного столбца отсутствует поле в классе Client.
+            Если добавить поле <span class="color-jclass">state</span> в класс Client и выполнить запрос, то это поле не будет участовать в меппинге 
+            и получит значение <span class="color-jclass">null</span>. Может показаться, что это не очень полезная фитча, но это не так. Существуют запросы,
+            которые используют синтетические поля для упорядочивания результата (ORDER BY clause), но при этом которые не нужны в ORM объекте. 
+            </p>
+
+            <p><span class="text-bold">Динамические фильтр.</span> Фильтрация колонок осуществляется в методах DAO класса. Давайте посмотрим полный пример,
+            чтобы понять с чем и как это едят :)
+            </p>
+                <pre><code class="java">
+public interface IBigOrmDao {
+
+    @TargetQuery("SELECT field_name1, field_name2, field_name3, field_name4, field_name5, " +
+                 "field_name6, field_name7, field_name8, field_name9, field_name10 " +
+                 "FROM big_orms ")
+    BigOrm load(@TargetFilter(columnFilter = true) int[] keepFields);
+}
+public class BigOrm {
+    private String fieldName1;
+    private String fieldName2;
+    private String fieldName3;
+    private String fieldName4;
+    private String fieldName5;
+    private String fieldName6;
+    private String fieldName7;
+    private String fieldName8;
+    private String fieldName9;
+    private String fieldName10;
+    // get/set method omit for simplicity
+}
+</code></pre>            
+            
+            
             <!-- REMOVE after docs finish (footer) -->
             <pre>
 

@@ -19,4 +19,11 @@ public interface IClientDao {
     @TargetQuery("INSERT INTO clients ( id,  name,  state) " +
                  "VALUES              (:id, :name, :state)")
     void saveClient(@TargetFilter Client client);
+
+
+    @TargetQuery("SELECT id," +
+                 "       name," +
+                 "       state AS ! " +
+                 "FROM clients")
+    List<Client> loadClients();
 }

@@ -9,11 +9,22 @@ public class ClientLauncher {
 
 
     public static void main(String[] args) {
-        loadClients();
-        saveClient();
-        filterClients("ovy", null);
-        filterClients("ovy", ClientState.ACTIVE);
-        filterClients(null, ClientState.ACTIVE);
+//        loadClients();
+//        saveClient();
+//        filterClients("ovy", null);
+//        filterClients("ovy", ClientState.ACTIVE);
+//        filterClients(null, ClientState.ACTIVE);
+        loadClientsFil();
+    }
+
+    private static void loadClientsFil() {
+        System.out.println("load clients begining");
+        try (H2DataSource h2ds = new H2DataSource("example.client")) {
+            h2ds.invoke("client.sql", ClientLauncher.class);
+            IClientDao cliensDao = OrmDao.createDao(h2ds, IClientDao.class);
+            System.out.println(cliensDao.loadClients());
+        }
+        System.out.println("load clients ok");
     }
 
     private static void loadClients() {
