@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.github.reforms</groupId>
             <artifactId>reforms</artifactId>
-            <version>2017.08.17</version>
+            <version>master-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

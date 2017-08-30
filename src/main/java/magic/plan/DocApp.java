@@ -1,5 +1,13 @@
 package magic.plan;
 
+import org.w3c.dom.Document;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -13,14 +21,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-
 public class DocApp extends Application {
 
     public static void main(String[] args) {
@@ -33,6 +33,7 @@ public class DocApp extends Application {
         final WebEngine webengine = webview.getEngine();
         webengine.getLoadWorker().stateProperty().addListener(
             new ChangeListener<Worker.State>() {
+                @Override
                 public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
                     if (newState == Worker.State.SUCCEEDED) {
                         Document doc = webengine.getDocument();
@@ -71,7 +72,7 @@ public class DocApp extends Application {
                 if (pLine.startsWith("<meta")) {
                     result.append(line).append("\n");
                     result.append(loadCss("css/docs.css")).append("\n");
-                    result.append(loadCss("css/zenburn.min.css")).append("\n");
+                    result.append(loadCss("css/default.min.css")).append("\n");
                 } else if (pLine.startsWith("<link")) {
                     // escape all links
                 } else if (pLine.startsWith("<script")) {

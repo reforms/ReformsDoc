@@ -13,7 +13,7 @@ html, body {
     background-color: #EEEEEE;
     height: 100%;
     position: fixed;
-    outline: 1px solid;
+/*     outline: 1px solid; */
 }
 
 #CenteredContent {
@@ -21,7 +21,7 @@ html, body {
     width: 50%;
     background-color: #F7F0D5;
     position: relative;
-    outline: 1px solid;
+/*     outline: 1px solid; */
 }
 
 #ContentBody {
@@ -43,6 +43,11 @@ h1 {
 h2 {
     padding-top: 10px;
     padding-left: 30px;
+}
+
+h3 {
+    padding-top: 10px;
+    padding-left: 40px;
 }
 
 p {
@@ -68,6 +73,9 @@ summary {
 pre {
     padding: 0px;
     margin:  0px;
+    border: 1px solid #C0C0C0;
+    border-right: 1px solid #A0A0A0;
+    border-bottom: 1px solid #A0A0A0;
 }
 
 .menu-main-item {
@@ -80,6 +88,14 @@ pre {
 .menu-child-item {
     padding-top: 10px;
     padding-left: 20px;
+    font-size: 90%;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-child-child-item {
+    padding-top: 10px;
+    padding-left: 30px;
     font-size: 90%;
     text-decoration: none;
     display: block;
@@ -98,6 +114,14 @@ pre {
     color: #AA0000;
 }
 
+.color-dark-green {
+    color: #00AA00;
+}
+
+.color-dark-blue {
+    color: #0000AA;
+}
+
 .color-jclass {
     color: #252577;
 }
@@ -106,14 +130,82 @@ pre {
     color: #775599;
 }
 
+.boreder-thin {
+	border: 1px solid black;
+}
+
 .text-bold {
   font-weight: bold
 }
 
 </style>
 <style>
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#3f3f3f;color:#dcdcdc}.hljs-keyword,.hljs-selector-tag,.hljs-tag{color:#e3ceab}.hljs-template-tag{color:#dcdcdc}.hljs-number{color:#8cd0d3}.hljs-variable,.hljs-template-variable,.hljs-attribute{color:#efdcbc}.hljs-literal{color:#efefaf}.hljs-subst{color:#8f8f8f}.hljs-title,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-section,.hljs-type{color:#efef8f}.hljs-symbol,.hljs-bullet,.hljs-link{color:#dca3a3}.hljs-deletion,.hljs-string,.hljs-built_in,.hljs-builtin-name{color:#cc9393}.hljs-addition,.hljs-comment,.hljs-quote,.hljs-meta{color:#7f9f7f}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+.hljs {
+	display: block;
+	overflow-x: auto;
+	padding: 0.5em;
+	background: #F0F0F0
+}
+
+.hljs, .hljs-subst {
+	color: #444
+}
+
+.hljs-comment {
+	color: #555588
+}
+
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword,
+	.hljs-doctag, .hljs-name {
+	font-weight: bold
+}
+
+.hljs-type, .hljs-number, .hljs-selector-id, .hljs-selector-class,
+	.hljs-quote, .hljs-template-tag, .hljs-deletion {
+	color: #880000
+}
+
+.hljs-title, .hljs-section {
+	color: #880000;
+	font-weight: bold
+}
+
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable,
+	.hljs-link, .hljs-selector-attr, .hljs-selector-pseudo {
+	color: #BC6060
+}
+
+.hljs-string {
+	color: #60BC60;
+	font-weight: bold
+}
+
+.hljs-literal {
+	color: #78A960
+}
+
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition {
+	color: #397300
+}
+
+.hljs-meta {
+	color: #1f7199;
+	font-weight: bold; 
+}
+
+.hljs-meta-string {
+	color: #4d99bf
+}
+
+.hljs-emphasis {
+	font-style: italic
+}
+
+.hljs-strong {
+	font-weight: bold
+}
 </style>
+<!-- <link rel="stylesheet" href="css/zenburn.min.css"> -->
 </HEAD>
 <BODY>
     <DIV id="LeftSide">
@@ -134,8 +226,12 @@ pre {
     <A class="menu-child-item" href="#TargetMethod">@TargetMethod</A>
     <A class="menu-child-item" href="#TargetField">@TargetField</A>
     <A class="menu-child-item" href="#TargetConstructor">@TargetConstructor</A>
-
-
+    <A class="menu-main-item" href="#SqlQueries">Sql Queries</A>
+    <A class="menu-child-item" href="#SELECT">SELECT</A>
+    <A class="menu-child-child-item" href="#ColumnsAndFields">Columns and fields</A>
+    <A class="menu-child-child-item" href="#ColumnFilters">Column filters</A>
+    
+    
     </DIV>
     <DIV id="RightSide"><SPAN/></DIV>
     <DIV id="CenteredContent">
@@ -676,6 +772,189 @@ pre {
                <LI>Default constructor has max priority for using. If your entity class will have such constructor no problems will occur</LI>
                <LI>Constructor with max parameters wich correspondence selected result has hight priority for using</LI>
            </UL>
+           
+           
+           <H1 id="SqlQueries">Sql Queries</H1>
+           
+           
+           <H2 id="SELECT">SELECT</H2>
+
+           <P>Запрос типа SELECT в большенстве проектов является центральным, важным и сложным. Запросы такого типа можно встретить на любой вкус и цвет.
+           Поэтому RefOrms уделяет особое внимание этому типу запроса. Результатом этого запроса могуть быть: список объектов заданного типа, отчет,
+           одиночная сущность, данные примитивного типа и многое другое. 
+           </P>
+
+           <H3 id="ColumnsAndFields">Columns and fields</H3>
+           
+           <P>Что нужно знать? Первое, это полный формат выбираемой колонки для RefOrms в SQL выражении:</P>
+           <P>
+                <SPAN class="color-dark-green text-bold">columnName</SPAN>
+                <SPAN class="color-dark-red"> AS </SPAN>
+                <SPAN class="color-dark-blue">columnAlias</SPAN>
+                <SPAN class="text-bold">:</SPAN>
+                <SPAN class="color-dark-green text-bold">fieldName</SPAN>
+                </P><UL>
+                    <LI><SPAN class="color-dark-green text-bold">columnName</SPAN> is column name or SQL selectable expression</LI>
+                    <LI><SPAN class="color-dark-blue">columnAlias</SPAN> is alias for selectable expression. [optional]</LI>
+                    <LI><SPAN class="text-bold">:</SPAN> is separator between alias and field name. [optional]</LI>
+                    <LI><SPAN class="color-dark-green text-bold">fieldName</SPAN> is entity field name. [optional]</LI>
+                </UL>
+           <P/>
+           <P>Второе, это понять, как осуществляется связывание колонки в SQL выражении и поля в ORM объекте.
+           Третье, какие у Вас есть возможности для этого. Все. Начнем по порядку и покажем как осуществляется связывание на примере:</P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">ISimpleClientDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">/**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id, "</SPAN> +   <SPAN class="hljs-comment">// link with field 'id'</SPAN>
+                 <SPAN class="hljs-string">"       name, "</SPAN> + <SPAN class="hljs-comment">// link with field 'name'</SPAN>
+                 <SPAN class="hljs-string">"       state "</SPAN> + <SPAN class="hljs-comment">// link with field 'state'</SPAN>
+                 <SPAN class="hljs-string">"FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">allClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+}
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">SimpleClient</SPAN> </SPAN>{
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">long</SPAN> id;
+    <SPAN class="hljs-keyword">private</SPAN> String name;
+    <SPAN class="hljs-keyword">private</SPAN> ClientState state;
+    <SPAN class="hljs-comment">// get/set method omit for simplicity</SPAN>
+}
+</CODE></PRE>
+            <P> В примере выше, связывание результата выборки осуществляется по названию колонки, т.е. для колонки с именем 'id'
+                ищется соответствующие поле с именем 'id', для колонки 'name' - поле 'name' в классе SimpleClient и т.д.
+                Это интуитивно понятно. Но что делать, если имя колонки не совпадает с именем поля класса? Давайте опять посмотрим пример:
+            </P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientOrgDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">/**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id     AS orgId, "</SPAN>   + <SPAN class="hljs-comment">// link with field 'orgId'</SPAN>
+                 <SPAN class="hljs-string">"       name   AS orgName, "</SPAN> + <SPAN class="hljs-comment">// link with field 'orgName'</SPAN>
+                 <SPAN class="hljs-string">"       state  AS orgState "</SPAN> + <SPAN class="hljs-comment">// link with field 'orgState'</SPAN>
+                 <SPAN class="hljs-string">"FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;ClientOrg&gt; <SPAN class="hljs-title">allClientsOrg</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+    <SPAN class="hljs-comment">/** It's important. Output SQL: SELECT id, name, state FROM clients */</SPAN>
+}
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">ClientOrg</SPAN> </SPAN>{
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">long</SPAN> orgId;
+    <SPAN class="hljs-keyword">private</SPAN> String orgName;
+    <SPAN class="hljs-keyword">private</SPAN> ClientState orgState;
+    <SPAN class="hljs-comment">// get/set method omit for simplicity</SPAN>
+}
+</CODE></PRE>
+            <P> Что изменилось? В SQL запросе добавилось 'AS clause' выражение для каждой колонки, чье наименование не совпадает с именем поля класса ClientOrg.
+            Здесь важно знать, что 'AS clause' выражение имеет наивысший приоритет при определении соответствия между колонкой и полем класса. Отдельно стоит 
+            отметить, что результирующий SQL запрос будет изменен и из него будут вырезаны 'AS clause'. Эту особенность работы RefOrms нужно держать в голове.
+            Разумеется, что иногда нужно сохранить информацию о 'AS clause' в результирующем SQL запросе. Посмотрим на следующий пример:
+            </P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientOrgDao</SPAN> </SPAN>{
+    <SPAN class="hljs-comment">/**
+     * CREATE TABLE clients (
+     *  id bigint NOT NULL,
+     *  name character varying(127) NOT NULL,
+     *  state int NOT NULL);
+     */</SPAN>
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id     AS aId:orgId, "</SPAN>   +       <SPAN class="hljs-comment">// link with field 'orgId'</SPAN>
+                 <SPAN class="hljs-string">"       name   AS aOrgName:orgName, "</SPAN> +  <SPAN class="hljs-comment">// link with field 'orgName'</SPAN>
+                 <SPAN class="hljs-string">"       state  AS aOrgState:orgState "</SPAN> + <SPAN class="hljs-comment">// link with field 'orgState'</SPAN>
+                 <SPAN class="hljs-string">"FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;ClientOrg&gt; <SPAN class="hljs-title">clientsOrg</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+    <SPAN class="hljs-comment">/** It's important. Output SQL:
+     * SELECT id AS aId, name AS aOrgName, state AS aOrgState FROM clients */</SPAN>
+}
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">ClientOrg</SPAN> </SPAN>{
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">long</SPAN> orgId;
+    <SPAN class="hljs-keyword">private</SPAN> String orgName;
+    <SPAN class="hljs-keyword">private</SPAN> ClientState orgState;
+    <SPAN class="hljs-comment">// get/set method omit for simplicity</SPAN>
+}
+</CODE></PRE>
+            <P>Итого, в результирующий запрос поподут алиасы колонок <SPAN class="color-jclass">aOrgId, aOrgName</SPAN> and <SPAN class="color-jclass">aOrgState</SPAN></P>
+            
+            <H3 id="ColumnFilters">Column filters</H3>
+            
+            <P>Фильтрация выбираемых колонок задача редкая. С другой стороны может быть жизненно-необходимой для решения конкретной задачи, например,
+            для уменьшения количества отдаваемых колонок с сервера на клиент в клиент-серверном приложении. Конечная задача - уменьшить количество передаваеммых данных
+            с одной стороны и увеличить отзывчивотсть приложения - с другой. Но это одна из задач, в Вашем случае могут быть другие причины для фильтрации.
+            RefOrms предоставляет инструменты для этого. Существует 2 способа отфильтровать колонки: <SPAN class="color-jclass">статический</SPAN> фильтр 
+            - через SQL выражение или <SPAN class="color-jclass">динамический</SPAN> через <SPAN class="color-jclass">TargetFilter</SPAN> в DAO методах и 2 типа фильтрации: 
+            1 - <SPAN class="color-jclass">присутствует</SPAN> в выборке, но не участвует в меппинге объекта и 
+            2 - <SPAN class="color-jclass">отсутствует</SPAN> в выборке и соответственно не участвует в меппинге. Рассмотрим каждую из возможностей более подробно. 
+            </P>
+            <P><SPAN class="text-bold">Статический фильтр.</SPAN> Фильтрация конкретной колонки осуществляется в SQL выражении. Формат:
+            </P><P>
+                <SPAN class="color-dark-green text-bold">columnName</SPAN>
+                <SPAN class="color-dark-red"> AS </SPAN>
+                <SPAN class="color-dark-blue">columnAlias</SPAN>
+                <SPAN class="text-bold">:</SPAN>
+                <SPAN class="text-bold">!</SPAN>
+                </P><UL>
+                    <LI><SPAN class="color-dark-green text-bold">columnName</SPAN> is column name or SQL selectable expression</LI>
+                    <LI><SPAN class="color-dark-blue">columnAlias</SPAN> is alias for selectable expression. [optional]</LI>
+                    <LI><SPAN class="text-bold">:</SPAN> is separator between alias and marker. [optional]</LI>
+                    <LI><SPAN class="text-bold">!</SPAN> is marker for column which does not have corresponding field inside entity object</LI>
+                </UL>
+           <P/>
+            <P>Простой пример демонстрирует эту возможность:
+            </P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IClientDao</SPAN> </SPAN>{
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT id,"</SPAN> +
+                 <SPAN class="hljs-string">"       name,"</SPAN> +
+                 <SPAN class="hljs-string">"       state ! "</SPAN> + <SPAN class="hljs-comment">// add '!' symbol, </SPAN>
+                 <SPAN class="hljs-string">"FROM clients"</SPAN>)
+    <SPAN class="hljs-function">List&lt;Client&gt; <SPAN class="hljs-title">loadClients</SPAN><SPAN class="hljs-params">()</SPAN></SPAN>;
+    <SPAN class="hljs-comment">/** Output SQL: SELECT id, name, state FROM clients */</SPAN>
+
+}
+<SPAN class="hljs-comment">// No state field inside Client </SPAN>
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">Client</SPAN> </SPAN>{
+    <SPAN class="hljs-keyword">private</SPAN> <SPAN class="hljs-keyword">long</SPAN> id;
+    <SPAN class="hljs-keyword">private</SPAN> String name;
+    <SPAN class="hljs-comment">// get/set method omit for simplicity</SPAN>
+}
+</CODE></PRE>
+            <P>В примере выше мы добавили символ '!' напротив столбца <SPAN class="color-jclass">state</SPAN>, что означает, что для данного столбца отсутствует поле в классе Client.
+            Если добавить поле <SPAN class="color-jclass">state</SPAN> в класс Client и выполнить запрос, то это поле не будет участовать в меппинге 
+            и получит значение <SPAN class="color-jclass">null</SPAN>. Может показаться, что это не очень полезная фитча, но это не так. Существуют запросы,
+            которые используют синтетические поля для упорядочивания результата (ORDER BY clause), но при этом которые не нужны в ORM объекте. 
+            </P>
+
+            <P><SPAN class="text-bold">Динамические фильтр.</SPAN> Фильтрация колонок осуществляется в методах DAO класса. Давайте посмотрим полный пример,
+            чтобы понять с чем и как это едят :)
+            </P>
+                <PRE><CODE class="java hljs">
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">interface</SPAN> <SPAN class="hljs-title">IBigOrmDao</SPAN> </SPAN>{
+
+    <SPAN class="hljs-meta">@TargetQuery</SPAN>(<SPAN class="hljs-string">"SELECT field_name1, field_name2, field_name3, field_name4, field_name5, "</SPAN> +
+                 <SPAN class="hljs-string">"field_name6, field_name7, field_name8, field_name9, field_name10 "</SPAN> +
+                 <SPAN class="hljs-string">"FROM big_orms "</SPAN>)
+    <SPAN class="hljs-function">BigOrm <SPAN class="hljs-title">load</SPAN><SPAN class="hljs-params">(@TargetFilter(columnFilter = <SPAN class="hljs-keyword">true</SPAN>)</SPAN> <SPAN class="hljs-keyword">int</SPAN>[] keepFields)</SPAN>;
+}
+<SPAN class="hljs-keyword">public</SPAN> <SPAN class="hljs-class"><SPAN class="hljs-keyword">class</SPAN> <SPAN class="hljs-title">BigOrm</SPAN> </SPAN>{
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName1;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName2;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName3;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName4;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName5;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName6;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName7;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName8;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName9;
+    <SPAN class="hljs-keyword">private</SPAN> String fieldName10;
+    <SPAN class="hljs-comment">// get/set method omit for simplicity</SPAN>
+}
+</CODE></PRE>            
+            
+            
             <!-- REMOVE after docs finish (footer) -->
             <PRE>
 
